@@ -5,4 +5,4 @@ For training we need to have a `obj` folder with:
 - All `.txt` files. One per image. Every file contains float numbers corresponding to object box coordinates.
 Usually, this folder might be quite heavy.
 Also the problem is that it's really hard to see if for each image there is a `.txt` file. Or if this file is not empty, which is also important while training.<br>
-So... I've created this program to help you (and me) get done with this routine faster
+So... I've created <strong>Jarvis.py</strong> to help you (and me) get done with this routine faster
