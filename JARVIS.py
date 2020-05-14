@@ -14,11 +14,11 @@ from shutil import copyfile, copy
 
 def get_path():
     while True:
-        path = input("Пожалуйста, введите путь к папке с размеченными фотографиями: \n")
+        path = input("Добрый день, мистер Старк!\nПожалуйста, введите путь к папке с размеченными фотографиями: \n")
         if os.path.exists(path):
             return path
         else:
-            print("Путь указан не верно! Попробуйте еще раз!")
+            print("Похоже вы указали путь не верно! Не могу найти такую папку ;(")
 
 
 # Функция меняет расширение всех изображений на .jpg
@@ -36,6 +36,8 @@ def rename_to_jpg(path):
 # функция проверяет, существует ли для каждого .jpg файла .txt файл и не пуст ли этот .txt файл
 def check_if_txt_exists(path, invalid_files):
     i = 0
+    print("Тааааакс...")
+    time.sleep(1)
     for file in os.listdir(path):
         if (file[-4:] == ".jpg") and (i % 2 == 0):  # если позиция файла четная (счет с НУЛЯ) и он - фотка, то проверяем наличие соответствующего текстового файла
             if file[:6]+".txt" not in os.listdir(path):  # если для картинки нет текстового файла - онаа не была размечена
@@ -51,7 +53,7 @@ def check_if_txt_exists(path, invalid_files):
                     else:
                         invalid_files.append(file)  # если текстовый файл пуст, то удаляется И он, И картинка
                         invalid_files.append(txt)
-                        print(txt + " ПУСТ!")
+                        print(txt + " пуст!")
                 i += 1
         elif (file[-4:] == ".txt") and (i % 2 == 0):  # если позиция четная (счет с НУЛЯ), а на ней текстовый файл - его следует удалить
             print("Файл " + file + " не на своём месте!")
@@ -66,7 +68,7 @@ def check_if_txt_exists(path, invalid_files):
 def delete_invalid_files(invalid_files, path):
     if invalid_files != []:
         time.sleep(2)
-        print("\n\nВот все некорректные файлы:\n")
+        print("\n\nВот все некорректные файлы, которые я смог найти, Тони:\n")
         for file in invalid_files:
             print(file)
         choice = str(input("\nХотите ли вы удалить эти файлы, так как они бессмысленны?(y/n):\n"))
@@ -83,7 +85,9 @@ def delete_invalid_files(invalid_files, path):
 
 # функция нумерует все оставшиеся файлы в формате 000001 в порядке возрастания
 def set_numbers(path):
-    start = int(input("С какого числа начать нумерацию?\n"))
+    start = int(input("Хорошо. А с какого числа начать нумерацию?\n"))
+    if start is not None:
+        print("Отличный выбор!")
     j = start
     files = os.listdir(path)
     if "temp" in files:
@@ -107,7 +111,7 @@ def set_numbers(path):
     for file in new_files:
         os.rename(path + "/temp/" + file, path + "/" + file) # а теперь обратно из резервной папки копируем файлы в исходную
     os.rmdir(path + "/temp/") # удаляем резервную папку
-    print("Файлы были пронумерованы в порядке возрастания!")
+    print("Фух..Файлы были пронумерованы в порядке возрастания!")
 
 
 # Функция создает файл train.txt в папке data на основе папки data/obj
@@ -118,18 +122,18 @@ def create_train_txt(path):
                 f.write("data/obj/" + file+"\n")
     new_path = path[:path.find("data")+4]
     copy(path + "/train.txt", new_path + "/train.txt")
+    os.remove(path + "/train.txt")
     print(f"Файл train.txt успешно создан в папке {new_path}")
 
 ############################################################################
 
 path = get_path()
-print("path = ", path)
 while True:
     print("\nПожалуйста, выберите, что хотите сделать: ")
-    print("1) Проверить правильность разметки (наличие корректного текстового файла для каждого изображения)")
-    print("2) Пронумеровать файлы в порядке возрастания")
-    print("3) Создать файл train.txt")
-    print("4) Выйти")
+    print("1) Проверь-ка правильность разметки (наличие корректного текстового файла для каждого изображения)")
+    print("2) Джарвис, пронумеруй файлы в порядке возрастания")
+    print("3) Создай файл train.txt")
+    print("4) Все, ниче больше не надо")
     print("Выш выбор: ", end="")
     choice = int(input())
     print('\n')
@@ -144,5 +148,5 @@ while True:
     elif choice == 3:
         create_train_txt(path)
     else:
-        print("Пока!")
+        print("Всего хорошего, мистер Старк! Был рад служить.")
         break
