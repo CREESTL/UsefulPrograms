@@ -13,13 +13,17 @@ import time
 from shutil import copyfile, copy
 
 def get_path():
+    print("Добрый день, мистер Старк!")
     while True:
-        path = input("Добрый день, мистер Старк!\nПожалуйста, введите путь к папке с размеченными фотографиями: \n")
+        path = input("Пожалуйста, введите путь к папке с размеченными фотографиями: \n")
         if os.path.exists(path):
             return path
         else:
             print("Похоже вы указали путь не верно! Не могу найти такую папку ;(")
 
+def wow():
+    print("ПИУ! ПИУ! ПИУ! ПИУ! СДОХНИ ТАНООООООС!")
+    time.sleep(5)
 
 # Функция меняет расширение всех изображений на .jpg
 def rename_to_jpg(path):
@@ -133,7 +137,7 @@ while True:
     print("1) Проверь-ка правильность разметки (наличие корректного текстового файла для каждого изображения)")
     print("2) Джарвис, пронумеруй файлы в порядке возрастания")
     print("3) Создай файл train.txt")
-    print("4) Все, ниче больше не надо")
+    print("4) Все, отдыхай")
     print("Выш выбор: ", end="")
     choice = int(input())
     print('\n')
@@ -147,6 +151,8 @@ while True:
         time.sleep(1)
     elif choice == 3:
         create_train_txt(path)
+    elif choice == 666:
+        wow()
     else:
         print("Всего хорошего, мистер Старк! Был рад служить.")
         break
