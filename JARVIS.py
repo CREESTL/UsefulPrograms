@@ -12,6 +12,15 @@ import os
 import time
 from shutil import copyfile, copy
 
+def get_path():
+    while True:
+        path = input("Пожалуйста, введите путь к папке с размеченными фотографиями: \n")
+        if os.path.exists(path):
+            return path
+        else:
+            print("Путь указан не верно! Попробуйте еще раз!")
+
+
 # Функция меняет расширение всех изображений на .jpg
 def rename_to_jpg(path):
     invalid_files = []# список файлов, который стоит удалить
@@ -100,13 +109,27 @@ def set_numbers(path):
     os.rmdir(path + "/temp/") # удаляем резервную папку
     print("Файлы были пронумерованы в порядке возрастания!")
 
+
+# Функция создает файл train.txt в папке data на основе папки data/obj
+def create_train_txt(path):
+    with open(path + '/train.txt', "w") as f:
+        for file in os.listdir(path):
+            if file[-4:] == ".jpg":
+                f.write("data/obj/" + file+"\n")
+    new_path = path[:path.find("data")+4]
+    copy(path + "/train.txt", new_path + "/train.txt")
+    print(f"Файл train.txt успешно создан в папке {new_path}")
+
 ############################################################################
-path = str(input("Введите путь к папке с фотографиями и .txt файлами: \n"))
+
+path = get_path()
+print("path = ", path)
 while True:
     print("\nПожалуйста, выберите, что хотите сделать: ")
     print("1) Проверить правильность разметки (наличие корректного текстового файла для каждого изображения)")
     print("2) Пронумеровать файлы в порядке возрастания")
-    print("3) Выйти")
+    print("3) Создать файл train.txt")
+    print("4) Выйти")
     print("Выш выбор: ", end="")
     choice = int(input())
     print('\n')
@@ -118,6 +141,8 @@ while True:
     elif choice == 2:
         set_numbers(path)
         time.sleep(1)
+    elif choice == 3:
+        create_train_txt(path)
     else:
         print("Пока!")
         break
